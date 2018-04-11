@@ -5,5 +5,8 @@ package com.example.user.jihujoor.app;
  */
 
 public class AppConfig {
-    public  static String Base_URL_JIHUZOOR="192.168.0.2:8084/jihuzur/";
+    public  static String Base_URL_JIHUZOOR="http://192.168.0.11:8084/jihuzur/vendorlogin";
+    public static String access_token=null;
+
+
 }
