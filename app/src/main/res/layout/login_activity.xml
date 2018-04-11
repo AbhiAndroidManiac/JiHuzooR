@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             app:mtf_labelColor="#666"
             app:mtf_image="@drawable/email"
-            app:mtf_animationDuration="1000">
+            app:mtf_animationDuration="100">
         <EditText
             android:textColor="@color/gray"
             android:textCursorDrawable="@drawable/cursor_color"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             app:mtf_labelColor="#666"
             app:mtf_image="@drawable/lock"
-            app:mtf_animationDuration="1000"
+            app:mtf_animationDuration="100"
 
             >
         <EditText
