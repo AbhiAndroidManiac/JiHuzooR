@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.example.user.jihujoor.Signup.Vendor_Signup_page">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+    <LinearLayout
+        android:id="@+id/lin"
+        android:orientation="horizontal"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+       <RadioButton
+           android:buttonTint="@color/deep_sky_blue"
+           android:layout_weight="1"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content" />
+            <TextView
+                android:layout_weight="1"
+                android:text="Corporate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View
+            android:visibility="gone"
+            android:layout_marginRight="10dp"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black" />
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:buttonTint="@color/deep_sky_blue"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_weight="1"
+            android:text="Individual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/spinner_rect"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:drawableLeft="@drawable/mapmarker"
+                    android:padding="5dp"
+                    android:textColor="@color/gray"
+                    android:textColorHint="@color/gray"
+                    android:hint="Full Address"
+                    android:background="@null"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:id="@+id/full_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </EditText>
+            </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/spinner_rect"
+        android:layout_below="@+id/lin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:backgroundTint="@color/deep_sky_blue"
+            android:id="@+id/state"
+            android:layout_width="match_parent"
+            android:layout_height="40sp">
+        </Spinner>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:background="@drawable/spinner_rect"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/lin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:backgroundTint="@color/deep_sky_blue"
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="40sp">
+            </Spinner>
+        </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/spinner_rect"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:drawableLeft="@drawable/email"
+                    android:background="@null"
+                    android:padding="5dp"
+                    android:textColorHint="@color/gray"
+                    android:hint="Email Id "
+                    android:id="@+id/email_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </EditText>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/spinner_rect"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:drawableLeft="@drawable/lock"
+                    android:padding="5dp"
+                    android:textColor="@color/gray"
+                    android:textColorHint="@color/gray"
+                    android:hint="Password"
+                    android:background="@null"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </EditText>
+            </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/spinner_rect"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:drawableLeft="@drawable/lock"
+                    android:hint="Confirm Password"
+                    android:textColorHint="@color/gray"
+                    android:background="@null"
+                    android:paddingLeft="2dp"
+                    android:id="@+id/confrm_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </EditText>
+            </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/spinner_rect"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:id="@+id/primarypro"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp"
+                    android:backgroundTint="@color/deep_sky_blue"></Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@drawable/spinner_rect"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:id="@+id/country"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp"
+                    android:backgroundTint="@color/deep_sky_blue"></Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/spinner_rect"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:drawableLeft="@drawable/mapmarker"
+                    android:padding="5dp"
+                    android:textColor="@color/gray"
+                    android:textColorHint="@color/gray"
+                    android:hint="Pin Code"
+                    android:background="@null"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:id="@+id/pincode"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/spinner_rect"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:drawableLeft="@drawable/phone"
+                    android:padding="5dp"
+                    android:textColor="@color/gray"
+                    android:textColorHint="@color/gray"
+                    android:hint="Phone Number"
+                    android:background="@null"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/spinner_rect"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:drawableLeft="@drawable/bank"
+                    android:padding="5dp"
+                    android:textColor="@color/gray"
+                    android:textColorHint="@color/gray"
+                    android:hint="Bank Account No"
+                    android:background="@null"
+                    android:backgroundTint="@color/deep_sky_blue"
+                    android:id="@+id/bank"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/btn_rectangle"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:text="Upload Pan Card"
+                    android:background="@color/deep_sky_blue"
+                    android:id="@+id/pancard"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/btn_rectangle"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:text="Upload Voter Card"
+                    android:background="@color/deep_sky_blue"
+                    android:id="@+id/voter"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/btn_rectangle"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:text="Company Pan Card"
+                    android:background="@color/deep_sky_blue"
+                    android:id="@+id/compancard"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/btn_rectangle"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:text="Upload cancel Cheque"
+                    android:background="@color/deep_sky_blue"
+                    android:id="@+id/cheque"
+                    android:layout_width="match_parent"
+                    android:layout_height="40sp">
+                </Button>
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <Button
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:hint="Register"
+            android:background="@color/deep_sky_blue"
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="40sp">
+        </Button>
+    </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>
