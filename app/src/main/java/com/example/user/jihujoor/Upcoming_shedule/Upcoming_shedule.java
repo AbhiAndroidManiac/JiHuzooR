@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,17 +21,26 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.user.jihujoor.Login.Login_activity;
 import com.example.user.jihujoor.gps_tracking.Gps_tracker;
 import com.example.user.jihujoor.Home_Page.Home;
 import com.example.user.jihujoor.R;
 import com.example.user.jihujoor.User_Profile.Profile;
 import com.example.user.jihujoor.Work_History.Work_history;
+import com.example.user.jihujoor.settings.SharedPreferenceLogin;
 import com.example.user.jihujoor.sharedPreferenceAsset.SettingPreferenceLatLong;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Upcoming_shedule extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Upcoming_shedule extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,GoogleApiClient.OnConnectionFailedListener {
 
     ListView listView;
     List<Data_model_upcoming_schdule> list;
@@ -39,16 +49,18 @@ public class Upcoming_shedule extends AppCompatActivity implements NavigationVie
     double latitude;
     double longitude;
     String resultResponse;
-    SettingPreferenceLatLong settingPreferenceLatLong;
+    int PLACE_PICKER_REQUEST = 1;
 
+    SettingPreferenceLatLong settingPreferenceLatLong;
+    SharedPreferenceLogin sharedPreferenceLogin;
+    private GoogleApiClient mGoogleApiClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upcoming_shedule);
         settingPreferenceLatLong=new SettingPreferenceLatLong(Upcoming_shedule.this);
-
         listView = (ListView) findViewById(R.id.list);
-
+        sharedPreferenceLogin=new SharedPreferenceLogin(Upcoming_shedule.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -61,17 +73,12 @@ public class Upcoming_shedule extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /**gps_tracker = new Gps_tracker(this);
-
-        if(gps_tracker.canGetLocation()){
-
-            latitude=gps_tracker.getLatitude();
-            longitude=gps_tracker.getLongitude();
-        }
-        else {
-            gps_tracker.showSettingsAlert();
-        }**/
-
+        mGoogleApiClient= new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this, this)
+                .build();
         Data_model_upcoming_schdule[] data_model_upcoming_schdule = new Data_model_upcoming_schdule[]{
 
                 new Data_model_upcoming_schdule("pawan kumar","kolkata","plumber","10.30","500","hold"),
@@ -122,11 +129,18 @@ public class Upcoming_shedule extends AppCompatActivity implements NavigationVie
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            AsyncTaskRunner runner = new AsyncTaskRunner();
-            runner.execute();
             Toast.makeText(getApplicationContext(),
                     "The latitude of the item is And the longitude of the item is"+settingPreferenceLatLong.getPayuResponse(),
                     Toast.LENGTH_SHORT).show();
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+            try {
+                startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+            } catch (GooglePlayServicesRepairableException e) {
+                e.printStackTrace();
+            } catch (GooglePlayServicesNotAvailableException e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
@@ -144,7 +158,7 @@ public class Upcoming_shedule extends AppCompatActivity implements NavigationVie
             // Handle the camera action
 
         } else if (id == R.id.upcoming_shedule) {
-            startActivity(new Intent(Upcoming_shedule.this, Upcoming_shedule.class));
+            //startActivity(new Intent(Upcoming_shedule.this, Upcoming_shedule.class));
 
         }
         else if(id==R.id.work_history){
@@ -153,6 +167,11 @@ public class Upcoming_shedule extends AppCompatActivity implements NavigationVie
         else if (id == R.id.nav_profile) {
             startActivity(new Intent(Upcoming_shedule.this, Profile.class));
         } else if (id == R.id.nav_logout) {
+            sharedPreferenceLogin.saveLoginStatus(false);
+            Intent intent = new Intent(Upcoming_shedule.this, Login_activity.class);
+            startActivity(intent);
+            finish();
+
 
         } else if (id == R.id.nav_share) {
 
@@ -168,38 +187,12 @@ public class Upcoming_shedule extends AppCompatActivity implements NavigationVie
     @Override
     protected void onStop() {
         super.onStop();
-        stopService(intent);
 
     }
 
-    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            Gps_tracker gps = new Gps_tracker(getApplicationContext());
-            // check if GPS location can get Location
-            if (gps.canGetLocation()) {
-                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-                if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                    Log.d("Your Location", "latitude:" + gps.getLatitude()
-                            + ", longitude: " + gps.getLongitude());
-
-                    double lon = gps.getLongitude();
-                    double lat = gps.getLatitude();
-
-                    resultResponse=String.valueOf(lon+"THe string value of the long and lat"+lat);
-                }
-            }else {
-                gps.showSettingsAlert();
-                resultResponse=null;
-            }
-            return resultResponse;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-                settingPreferenceLatLong.savePayuResponse(s);
-        }
     }
+
 }

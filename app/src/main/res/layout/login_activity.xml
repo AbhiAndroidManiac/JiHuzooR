@@ -22,6 +22,13 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#666"
+            android:prompt="@string/spinner_title"
+            />
         <com.github.florent37.materialtextfield.MaterialTextField
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -71,6 +78,7 @@
             android:id="@+id/showPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#666"
             android:text="Show Password" />
 
         <Button

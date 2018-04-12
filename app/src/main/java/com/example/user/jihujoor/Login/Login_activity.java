@@ -13,10 +13,13 @@ import android.telephony.TelephonyManager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,10 +39,12 @@ import com.example.user.jihujoor.settings.SharedPreferenceLogin;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class Login_activity extends AppCompatActivity implements View.OnClickListener {
+public class Login_activity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
     Button btn_login;
     Button btn_signup;
@@ -51,6 +56,8 @@ public class Login_activity extends AppCompatActivity implements View.OnClickLis
     TelephonyManager telephonyManager;
     ProgressDialog pDialog;
     SharedPreferenceLogin sharedPreferenceLogin;
+    Spinner spinner;
+    String spinnerSelection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +69,9 @@ public class Login_activity extends AppCompatActivity implements View.OnClickLis
         btn_signup = (Button) findViewById(R.id.signup);
         textView_forgotpass = (TextView) findViewById(R.id.forgotpass);
         showPassword = (CheckBox) findViewById(R.id.showPassword);
+        spinner=(Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+
         Typeface face = Typeface.createFromAsset(getAssets(), "Quicksand-Regular.otf");
         Typeface face1 = Typeface.createFromAsset(getAssets(), "Quicksand-Bold.otf");
         editText_email.setTypeface(face);
@@ -85,7 +95,11 @@ public class Login_activity extends AppCompatActivity implements View.OnClickLis
          telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         deviceId=telephonyManager.getDeviceId();
 
-
+        if (sharedPreferenceLogin.getLoginStatus()==true){
+            Intent intent = new Intent(Login_activity.this, Upcoming_shedule.class);
+            startActivity(intent);
+            finish();
+        }
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,30 +117,6 @@ public class Login_activity extends AppCompatActivity implements View.OnClickLis
 
         btn_login.setOnClickListener((View.OnClickListener) this);
 
-        /**{
-            @Override
-            public void onClick(View v) {
-                if (editText_email.getText().toString().trim().equals("guru1@gmail.com") && editText_pass.getText().toString().equals("123")) {
-                    startActivity(new Intent(Login_activity.this, Upcoming_shedule.class));
-                    if (ActivityCompat.checkSelfPermission(Login_activity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return;
-                    }
-                    Toast.makeText(Login_activity.this, telephonyManager.getDeviceId(), Toast.LENGTH_SHORT).show();
-                    Log.e("deviceID",telephonyManager.getDeviceId());
-                    Toast.makeText(Login_activity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(Login_activity.this, "enter wrong emil_id or password", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });**/
         showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -141,6 +131,18 @@ public class Login_activity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
+        List<String> categories=new ArrayList<String>();
+        categories.add("Individual");
+        categories.add("Corporate");
+        categories.add("Vehicle");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
 
     }
 
@@ -160,6 +162,7 @@ public class Login_activity extends AppCompatActivity implements View.OnClickLis
 
             loginExecution(vendorEmail,vendorPassword);
             Toast.makeText(this, "THe button click working", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), spinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -171,7 +174,7 @@ public class Login_activity extends AppCompatActivity implements View.OnClickLis
 
         //String loginUrl="http://192.168.0.11:8084/jihuzur/vendorlogin";
         Map<String, String> params = new HashMap<String, String>();
-        params.put("choose", "Individual");
+        params.put("choose", spinner.getSelectedItem().toString());
         params.put("password", vendorPassword);
         params.put("username", vendorEmail);
         params.put("callFrom", "Mobile");
@@ -189,7 +192,9 @@ public class Login_activity extends AppCompatActivity implements View.OnClickLis
                     if (jsonObject.getString("isapproved").equalsIgnoreCase("true")){
                         AppConfig.access_token=jsonObject.getString("accessToken");
                         sharedPreferenceLogin.saveAccessToken(AppConfig.access_token);
+                        sharedPreferenceLogin.saveLoginStatus(true);
                         Toast.makeText(getApplicationContext(), AppConfig.access_token, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), spinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(
                                 Login_activity.this,
                                 Upcoming_shedule.class);
@@ -227,5 +232,18 @@ public class Login_activity extends AppCompatActivity implements View.OnClickLis
             pDialog.dismiss();
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String item = parent.getItemAtPosition(position).toString();
+
+        // Showing selected spinner item
+        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+
     }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+}
 
